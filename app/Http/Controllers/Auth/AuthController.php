@@ -22,10 +22,10 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-         // Generate token
-         $token = $user->createToken('AuthToken');
+        // Generate token
+        $token = $user->createToken('AuthToken');
 
-         return response()->json(['token' => $token->accessToken], 201);
+        return response()->json(['Success' => 'User registered successfully', 'token' => $token->accessToken], 201);
     }
 
     public function login(Request $request)
@@ -35,7 +35,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $token = Auth::user()->createToken('AuthToken');
 
-            return response()->json(['token' => $token->accessToken], 200);
+            return response()->json(['Success' => 'Logged in successfully', 'token' => $token->accessToken], 200);
         }
 
         return response()->json(['message' => 'Unauthorized'], 401);
@@ -50,6 +50,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user(), 200);
+        return Auth::user();
     }
 }
